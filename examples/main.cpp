@@ -9,7 +9,8 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QPlot plotter(QPoint(10, 50), QPair<QString, QString>("x", "y"));
+
+    QPlot plotter(QPoint(10, 50), QPair<QString, QString>("time", "speed"));
 
     // Minimum size of the widget
     plotter.setMinimumSize(QSize(400, 400));
@@ -54,7 +55,7 @@ int main(int argc, char *argv[])
      */
     plotter.setPrecision(QPoint(1, 10));
 
-    /* Step :
+    /* Steps :
      *
      *     ^
      *  4 -|

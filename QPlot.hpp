@@ -1,5 +1,5 @@
-#ifndef GRAPH_HPP
-#define GRAPH_HPP
+#ifndef QPLOT_HPP
+#define QPLOT_HPP
 
 #include <QLabel>
 #include <QPainter>
@@ -19,14 +19,14 @@ public:
     void setLegend(QPair<QString, QString>);
     void setPrecision(const QPoint &);
     void setStep(const QPoint &);
-    void setColor(const QColor &);
+    void setCurveColor(const QColor &);
+    void setAxesColor(const QColor &);
     void setMargin(const QPoint &);
-    void setBackground(const QColor &background);
+    void setBackground(const QColor &);
 
     void resizeEvent(QResizeEvent *);
 
 private:
-
     void                    build();
 
     QPoint                  _margin;
@@ -36,7 +36,8 @@ private:
     QPair<QString, QString> _legend;
     QPoint                  _precision;
     QPoint                  _step;
-    QColor                  _color;
+    QColor                  _curveColor;
+    QColor                  _axesColor;
     QColor                  _background;
 
     QPixmap                 _pixmap;
@@ -47,4 +48,4 @@ private:
 };
 
 
-#endif // GRAPH_HPP
+#endif // QPLOT_HPP
