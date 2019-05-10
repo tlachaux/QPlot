@@ -12,7 +12,7 @@ QPlot::QPlot(QPoint max, QPair<QString, QString> legend)
     , _precision(50, 50)
     , _step(5, 5)
     , _curveColor(0, 200, 100)
-    , _axesColor(255, 255, 255)
+    , _axisColor(255, 255, 255)
     , _pixmap(_size.width(), _size.height())
 {
     _ratio.setX(double(_size.width() - (_margin.x() * 2)) / double(_max.x()));
@@ -66,8 +66,8 @@ void QPlot::clear()
                       _size.width() - (2 * _margin.x()) + 1,
                       _size.height() - (2 * _margin.y()) + 1, _background);
 
-    _painter.setPen(QPen(_axesColor, 1, Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin));
-    _painter.setBrush(_axesColor);
+    _painter.setPen(QPen(_axisColor, 1, Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin));
+    _painter.setBrush(_axisColor);
 
     _painter.drawLine(_margin.x(), _margin.y(), _margin.x(), _size.height() - _margin.y());
     _painter.drawLine(_margin.x(), _size.height() - _margin.y(),
@@ -140,8 +140,8 @@ void QPlot::build()
 
     _painter.fillRect(0, 0, _size.width(), _size.height(), _background);
 
-    _painter.setPen(QPen(_axesColor, 1, Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin));
-    _painter.setBrush(_axesColor);
+    _painter.setPen(QPen(_axisColor, 1, Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin));
+    _painter.setBrush(_axisColor);
 
     _painter.rotate(-90);
     _painter.drawText(QPoint( -_margin.y() - (_legend.second.size() * 6),
@@ -176,9 +176,9 @@ void QPlot::build()
     _painter.end();
 }
 
-void QPlot::setAxesColor(const QColor &axesColor)
+void QPlot::setAxisColor(const QColor &axisColor)
 {
-    _axesColor = axesColor;
+    _axisColor = axisColor;
 }
 
 

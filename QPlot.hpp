@@ -20,7 +20,7 @@ public:
     void setPrecision(const QPoint &);
     void setStep(const QPoint &);
     void setCurveColor(const QColor &);
-    void setAxesColor(const QColor &);
+    void setAxisColor(const QColor &);
     void setMargin(const QPoint &);
     void setBackground(const QColor &);
 
@@ -37,7 +37,7 @@ private:
     QPoint                  _precision;
     QPoint                  _step;
     QColor                  _curveColor;
-    QColor                  _axesColor;
+    QColor                  _axisColor;
     QColor                  _background;
 
     QPixmap                 _pixmap;
