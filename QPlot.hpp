@@ -5,16 +5,13 @@
 #include <QPainter>
 #include <QVector>
 
-class QPlot : public QLabel
+class QPlot : public QWidget
 {
 public:
     QPlot(QPoint, QPair<QString, QString>);
 
     void addPoint(int);
-    void plot();
-    void clear();
 
-    void setUnableAutoUpdate(bool);
     void setMax(const QPoint &);
     void setLegend(QPair<QString, QString>);
     void setPrecision(const QPoint &);
@@ -24,10 +21,12 @@ public:
     void setMargin(const QPoint &);
     void setBackground(const QColor &);
 
-    void resizeEvent(QResizeEvent *);
 
 private:
+    virtual void            resizeEvent(QResizeEvent *);
+    virtual void            paintEvent(QPaintEvent *e);
     void                    build();
+    void                    plot();
 
     QPoint                  _margin;
     QSize                   _size;
@@ -40,11 +39,8 @@ private:
     QColor                  _axisColor;
     QColor                  _background;
 
-    QPixmap                 _pixmap;
     QPainter                _painter;
     QVector<int>            _points;
-
-    bool                    _update = false;
 };
 
 

@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    QPlot plotter(QPoint(10, 50), QPair<QString, QString>("time", "speed"));
+    QPlot plotter(QPoint(100, 100), QPair<QString, QString>("time", "speed"));
 
     // Minimum size of the widget
     plotter.setMinimumSize(QSize(400, 400));
@@ -70,16 +70,13 @@ int main(int argc, char *argv[])
      */
     plotter.setStep(QPoint(1, 1));
 
-    plotter.addPoint(3);
-    plotter.addPoint(5);
-    plotter.addPoint(10);
-    plotter.addPoint(7);
-    plotter.addPoint(20);
-    plotter.addPoint(0);
-    plotter.addPoint(2);
-    plotter.addPoint(8);
+    /*
+     * Random test :
+     */
+    for (int i=0; i<100; ++i) {
+        plotter.addPoint(30 + rand()%30);
+    }
 
-    plotter.plot();
     plotter.show();
     return app.exec();
 }

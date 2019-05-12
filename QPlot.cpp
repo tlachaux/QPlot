@@ -13,28 +13,19 @@ QPlot::QPlot(QPoint max, QPair<QString, QString> legend)
     , _step(5, 5)
     , _curveColor(0, 200, 100)
     , _axisColor(255, 255, 255)
-    , _pixmap(_size.width(), _size.height())
 {
     _ratio.setX(double(_size.width() - (_margin.x() * 2)) / double(_max.x()));
     _ratio.setY(double(_size.height() - (_margin.y() * 2)) / double(_max.y()));
-
-    this->build();
-    this->setPixmap(_pixmap);
 }
 
 void QPlot::addPoint(int y)
 {
     _points.push_back(y);
-
-    if (_update) {
-        this->clear();
-        this->plot();
-    }
 }
 
 void QPlot::plot()
 {
-    _painter.begin(&_pixmap);
+    _painter.begin(this);
 
     _painter.setRenderHint(QPainter::Antialiasing);
     _painter.setRenderHint(QPainter::HighQualityAntialiasing);
@@ -44,45 +35,24 @@ void QPlot::plot()
     int start = (_points.size() * _step.x() <= _max.x()) ?
                 1 : ((_points.size() * _step.x()) - _max.x())/_step.x();
 
+    int xTmp = 0;
+    int yTmp = 0;
+
     for (int i=start; i < _points.size(); ++i) {
-        _painter.drawLine(_margin.x() + int((i - start) * _step.x() * _ratio.x()),
-                         (_size.height() - int(_points[i - 1] * _step.y() * _ratio.y())) - _margin.y(),
-                         _margin.x() + int((i - start + 1) * _step.x() * _ratio.x()),
-                         (_size.height() - int(_points[i] * _step.y() * _ratio.y())) - _margin.y());
+        xTmp = _margin.x() + int((i - start) * _step.x() * _ratio.x());
+        yTmp = _size.height() - _margin.y();
+        _painter.drawLine(xTmp, yTmp - int(_points[i - 1] * _step.y() * _ratio.y()),
+                         xTmp + int(_step.x() * _ratio.x()),
+                         yTmp - int(_points[i] * _step.y() * _ratio.y()));
     }
-    _painter.end();
-
-    this->setPixmap(_pixmap);
-}
-
-void QPlot::clear()
-{
-    _painter.begin(&_pixmap);
-
-    _painter.setRenderHint(QPainter::Antialiasing);
-    _painter.setRenderHint(QPainter::HighQualityAntialiasing);
-
-    _painter.fillRect(_margin.x(), _margin.y() - 1,
-                      _size.width() - (2 * _margin.x()) + 1,
-                      _size.height() - (2 * _margin.y()) + 1, _background);
-
-    _painter.setPen(QPen(_axisColor, 1, Qt::SolidLine, Qt::FlatCap, Qt::MiterJoin));
-    _painter.setBrush(_axisColor);
-
-    _painter.drawLine(_margin.x(), _margin.y(), _margin.x(), _size.height() - _margin.y());
-    _painter.drawLine(_margin.x(), _size.height() - _margin.y(),
-                      _size.width() - _margin.x(), _size.height() - _margin.y());
-
     _painter.end();
 }
 
-void QPlot::setUnableAutoUpdate(bool update)
+void QPlot::paintEvent(QPaintEvent *e)
 {
-    _update = update;
-    if (_update) {
-        this->clear();
-        this->plot();
-    }
+    this->build();
+    this->plot();
+    QWidget::paintEvent(e);
 }
 
 void QPlot::setMax(const QPoint &max)
@@ -123,17 +93,13 @@ void QPlot::setBackground(const QColor &background)
 void QPlot::resizeEvent(QResizeEvent *event)
 {
     _size   = event->size();
-    _pixmap = QPixmap(_size.width(), _size.height());
     _ratio.setX(double(_size.width() - (_margin.x() * 2))/double(_max.x()));
     _ratio.setY(double(_size.height() - (_margin.x() * 2))/double(_max.y()));
-
-    this->build();
-    this->plot();
 }
 
 void QPlot::build()
 {
-    _painter.begin(&_pixmap);
+    _painter.begin(this);
 
     _painter.setRenderHint(QPainter::Antialiasing);
     _painter.setRenderHint(QPainter::HighQualityAntialiasing);
